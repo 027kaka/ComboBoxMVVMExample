@@ -14,16 +14,20 @@ namespace ComboBoxMVVMExample.ViewModel
     public class ExampleViewModel : ViewModelBase
     {
         #region ComboBox using enum type
-        // Private Fields
+
+        #region Fields
         private IEnumerable<EnumItem> _EnumItems;
         private string _EnumSelectedItem;
         private ICommand _ShowEnumItemCommand;
+        #endregion
 
-        // Public Properties - Used for binding with the View
+        #region Public Properties
+        /// <summary>
+        /// Get or set a list of enum items
+        /// </summary>
         public IEnumerable<EnumItem> EnumItems
         {
             get {
-                // Whatever type of the enum, return them the same too
                 return (EnumItem[])Enum.GetValues(typeof(EnumItem));
             }
             set
@@ -35,6 +39,10 @@ namespace ComboBoxMVVMExample.ViewModel
                 }
             }
         }
+
+        /// <summary>
+        /// Get or set enum selected item
+        /// </summary>
         public string EnumSelectedItem
         {
             get { return _EnumSelectedItem; }
@@ -44,6 +52,10 @@ namespace ComboBoxMVVMExample.ViewModel
                 OnPropertyChanged("EnumSelectedItem");
             }
         }
+
+        /// <summary>
+        /// Trigger command to show enum item
+        /// </summary>
         public ICommand ShowEnumItemCommand
         {
             get
@@ -54,8 +66,12 @@ namespace ComboBoxMVVMExample.ViewModel
                 return _ShowEnumItemCommand;
             }
         }
+        #endregion
 
-        // Private Method
+        #region Methods
+        /// <summary>
+        /// Show enum selected item
+        /// </summary>
         private void ShowEnumItemMethod()
         {
             // Get combobox current selected value
@@ -63,14 +79,21 @@ namespace ComboBoxMVVMExample.ViewModel
         }
         #endregion
 
+        #endregion
+
         #region Cascaded ComboBox using List<T> class
-        // Private Fields
+
+        #region Private Fields
         private List<Country> _CountryList;
         private string _SelectedCountryCode;
         private List<State> _StateList;
         private string _SelectedState;
+        #endregion
 
-        // Public Properties - Used for binding with the View
+        #region Public Properties
+        /// <summary>
+        /// Get or set a list of countries
+        /// </summary>
         public List<Country> CountryList {
             get { return _CountryList; }
             set
@@ -79,6 +102,10 @@ namespace ComboBoxMVVMExample.ViewModel
                 OnPropertyChanged("CountryList");
             }
         }
+
+        /// <summary>
+        /// Get or set selected country two-letter code
+        /// </summary>
         public string SelectedCountryCode
         {
             get { return _SelectedCountryCode; }
@@ -86,10 +113,18 @@ namespace ComboBoxMVVMExample.ViewModel
             {
                 _SelectedCountryCode = value;
                 OnPropertyChanged("SelectedCountryCode");
-                OnPropertyChanged("AllowStateSelection"); // Trigger Enable/Disable UI element when particular country is selected
-                getStateList(); // Generate a new list of states based on a selected country
+
+                // Trigger Enable/Disable UI element when a particular country is selected
+                OnPropertyChanged("AllowStateSelection");
+
+                // Generate a new list of states based on a selected country (two-letter code)
+                getStateList();
             }
         }
+
+        /// <summary>
+        /// Get or set a list of states
+        /// </summary>
         public List<State> StateList
         {
             get { return _StateList; }
@@ -100,6 +135,9 @@ namespace ComboBoxMVVMExample.ViewModel
             }
         }
         
+        /// <summary>
+        /// Get or set a selected state
+        /// </summary>
         public string SelectedState
         {
             get { return _SelectedState; }
@@ -109,26 +147,37 @@ namespace ComboBoxMVVMExample.ViewModel
                 OnPropertyChanged("SelectedState");
             }
         }
+
+        /// <summary>
+        /// Return TRUE when user selected a particular country
+        /// </summary>
         public bool AllowStateSelection
         {
             get { return (SelectedCountryCode != null); }
         }
+        #endregion
 
-        // Constructor
+        #region Constructors
         public ExampleViewModel()
         {
             // Instantiate, get a list of countries from the Model
             Country _Country = new Country();
             CountryList = _Country.getCountries();
         }
+        #endregion
 
-        // Private Method
+        #region Private Methods
+        /// <summary>
+        /// Populate a list of states based on a selected country
+        /// </summary>
         private void getStateList()
         {
             // Instantiate, get a list of states based on selected country two-letter code from the Model
             State _State = new State();
             StateList = _State.getStateByCountryCode(SelectedCountryCode);
         }
+        #endregion
+
         #endregion
     }
 }

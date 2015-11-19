@@ -9,6 +9,9 @@ namespace ComboBoxMVVMExample.Model
     {
     }
 
+    /// <summary>
+    /// Enum-type object
+    /// </summary>
     public enum EnumItem
     {
         Enum01,
@@ -16,6 +19,9 @@ namespace ComboBoxMVVMExample.Model
         Enum03
     }
 
+    /// <summary>
+    /// Country object
+    /// </summary>
     public class Country
     {
         public string CountryName { get; set; }
@@ -31,6 +37,9 @@ namespace ComboBoxMVVMExample.Model
         }
     }
 
+    /// <summary>
+    /// State object
+    /// </summary>
     public class State
     {
         public string CountryTwoLetterCode { get; set; }
